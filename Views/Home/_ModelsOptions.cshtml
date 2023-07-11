@@ -1,0 +1,8 @@
+﻿@model IEnumerable<ShopEntity.CarModelView>
+
+
+<option value="-1">-- انتخاب کنید ---</option>
+@foreach (var item in Model)
+{
+    <option value="@item.CarModelId">@item.ModelName</option>
+}

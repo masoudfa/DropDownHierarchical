@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <select class="form-control btn btn-secondary dropdown-toggle" id="Brands" onchange="changeModels()">
+                    <option value="-1">-- انتخاب کنید ---</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.BrandID">@item.BrandName</option>
+                    }
+                </select>
+            </div>
+            <br />
+            <br />
+            <div class="col-lg-6 col-md-6">
+                <select class="form-control btn btn-secondary dropdown-toggle" id="Models" onchange="changeModels2()">
+                    <option value="-1">-- انتخاب کنید ---</option>
+                </select>
+            </div>
+
+            <br />
+            <br />
+            <div class="col-lg-6 col-md-6">
+                <select class="form-control btn btn-secondary dropdown-toggle" id="ModelsYear" >
+                    <option value="-1">-- انتخاب کنید ---</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    <script>
+        function changeModels() {
+            var BrandId = $('#Brands').val();
+            if (BrandId && BrandId != -1) {
+                $.ajax(
+                    {
+                        url: '/Home/GetModelByBrandID/',
+                        type: 'GET',
+                        data: { BrandId },
+                        success: function (data) {
+                            $('#Models').html(data);
+                        },
+                        error: function (request, error) {
+                            alert("Error");
+                        }
+                    }
+                );
+            }
+            else {
+                $('#Models').html('<option value="-1">-- انتخاب کنید ---</option>');
+            }
+        }
+
+        function changeModels2() {
+            var CarModelId = $('#Models').val();
+            debugger
+            if (CarModelId && CarModelId != -1) {
+                $.ajax(
+                    {
+                        url: '/Home/GetCarModelYear/',
+                        type: 'GET',
+                        data: { CarModelId },
+                        success: function (data) {
+                            $('#ModelsYear').html(data);
+                        },
+                        error: function (request, error) {
+                            alert("Error");
+                        }
+                    }
+                );
+            }
+            else {
+                $('#ModelsYear').html('<option value="-1">-- انتخاب کنید ---</option>');
+            }
+        }
+    </script>
+}
